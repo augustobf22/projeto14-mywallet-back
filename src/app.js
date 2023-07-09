@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import joi from "joi";
 import dayjs from "dayjs";
 import { v4 as uuid } from 'uuid';
+import bcrypt from "bcrypt";
 
 const token = uuid();
 
@@ -14,28 +15,44 @@ const app = express();
 // config app
 app.use(express.json());
 app.use(cors());
-dotenv.config()
+dotenv.config();
 
 //connect to db
 const mongoClient = new MongoClient(process.env.DATABASE_URL);
-let db;
 
-mongoClient.connect()
-    .then(() => db = mongoClient.db())
-    .catch((err) => console.log(err.message))
+try {
+    mongoClient.connect();
+    console.log("MongoDB conectado!");
+} catch(err) {
+    console.log(err.message);
+}
+
+const db = mongoClient.db();
 
 //inputs schemas
-const userSchema = joi.object({
-    name: joi.string().required(),
+const signupSchema = joi.object({
+    nome: joi.string().required(),
     email: joi.string().email().required(),
     senha: joi.string().required().min(3),
 });
 
+const loginSchema = joi.object({
+    email: joi.string().email().required(),
+    senha: joi.string().required().min(3),
+});
+
+const transactionSchema = joi.object({
+    token: joi.string().required,
+    value: joi.number().positive().required,
+    description: joi.string().required()
+});
+
 //endpoints
+//confirmação de senha no front - validação
 app.post("/cadastro", async (req, res) => {
     const { nome, email, senha } = req.body;
   
-    const validation = userSchema.validate(req.body, { abortEarly: false });
+    const validation = signupSchema.validate(req.body, { abortEarly: false });
     
     if (validation.error) {
         const errors = validation.error.details.map((detail) => detail.message);
@@ -59,23 +76,54 @@ app.post("/cadastro", async (req, res) => {
 app.post("/", async (req, res) => {
     const { email, senha } = req.body;
     
-    const validation = userSchema.validate(req.body, { abortEarly: false });
+    const validation = loginSchema.validate(req.body, { abortEarly: false });
 
     if (validation.error) {
         const errors = validation.error.details.map((detail) => detail.message);
         return res.status(422).send(errors);
     };
 
-    const user = await db.collection('users').findOne({ email });
+    const user = await db.collection("usuarios").findOne({ email });
+    if(!user) return res.status(404).send("Usuário não encontrado!");
 
     if(user && bcrypt.compareSync(senha, user.senha)) {
-        // sucesso, usuário encontrado com este email e senha!
+        const token = uuid();
+        
+		await db.collection("sessions").insertOne({userId: user._id,token});
+
+        const userSerialized = JSON.stringify(user);
+        localStorage.setItem("user", userSerialized);
+
+        return res.status(200).send(token);
     } else {
-        // usuário não encontrado (email ou senha incorretos)
+        return res.status(401).send("Senha incorreta!");
     }
 });
 
-/////////
+app.post("/nova-transacao/:tipo", async(req, res) => {
+    const tipo = req.params.tipo;
+
+    const { token, value, description} = req.body;
+    
+    const validation = transactionSchema.validate(req.body, { abortEarly: false });
+
+    if (validation.error) {
+        const errors = validation.error.details.map((detail) => detail.message);
+        return res.status(422).send(errors);
+    };
+
+    try {
+        const userToken = await db.collection("sessions").findOne({ token });
+        if(!userToken) return res.status(401).send("Token inválido!");        
+  
+        await db.collection("operacoes").insertOne({ token, tipo, value, description});
+        res.sendStatus(201);
+    } catch (err) {
+        return res.status(500).send(err.message);
+    }
+});
+
+/*
 app.post("/participants", async (req, res) => {
     const { name } = req.body;
 
@@ -188,6 +236,7 @@ async function rem() {
 };
 
 setInterval(rem, 15000);
+*/
 
 const PORT = 5000;
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
