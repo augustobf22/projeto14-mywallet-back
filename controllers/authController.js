@@ -1,7 +1,5 @@
 import bcrypt from "bcrypt";
 import { v4 as uuid } from 'uuid';
-import { signupSchema } from "../schemas/signupSchema.js";
-import { loginSchema } from "../schemas/loginSchema.js";
 import { db } from "../database.js";
 
 export async function signUp(req, res) {
