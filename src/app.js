@@ -13,7 +13,5 @@ dotenv.config();
 
 app.use(routes);
 
-const port = process.env.PORT || 5000;
-app.listen(port, () => {
-	console.log(`Servidor rodando na porta ${port}`)
-});
+const PORT = 5000;
+app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
