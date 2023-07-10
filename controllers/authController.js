@@ -24,19 +24,23 @@ export async function signUp(req, res) {
 export async function signIn(req, res) {
     const { email, senha } = req.body;
 
-    const user = await db.collection("usuarios").findOne({ email });
-    if(!user) return res.status(404).send("Usuário não encontrado!");
+    try{
+        const user = await db.collection("usuarios").findOne({ email });
+        if(!user) return res.status(404).send("Usuário não encontrado!");
 
-    if(user && bcrypt.compareSync(senha, user.senha)) {
-        const token = uuid();
-        
-		await db.collection("sessions").insertOne({userId: user._id,token});
+        if(user && bcrypt.compareSync(senha, user.senha)) {
+            const token = uuid();
+            
+            await db.collection("sessions").insertOne({userId: user._id,token});
 
-        /*const userSerialized = JSON.stringify(user);
-        localStorage.setItem("user", userSerialized);*/
+            /*const userSerialized = JSON.stringify(user);
+            localStorage.setItem("user", userSerialized);*/
 
-        return res.status(200).send(token);
-    } else {
-        return res.status(401).send("Senha incorreta!");
+            return res.status(200).send(token);
+        } else {
+            return res.status(401).send("Senha incorreta!");
+        }
+    } catch (err){
+        return res.status(500).send(err.message);
     }
 };
