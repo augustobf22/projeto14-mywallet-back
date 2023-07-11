@@ -4,7 +4,7 @@ import { db } from "../database.js";
 
 export async function addTransaction(req, res) {
     const tipo = req.params.tipo;
-    const token = req.headers.token;
+    const token = req.headers.authorization.replace('Bearer ', '');
 
     const { value, description } = req.body;
     
