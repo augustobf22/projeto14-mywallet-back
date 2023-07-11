@@ -34,7 +34,7 @@ export async function signIn(req, res) {
             /*const userSerialized = JSON.stringify(user);
             localStorage.setItem("user", userSerialized);*/
 
-            return res.status(200).send(token);
+            return res.status(200).send({user, token});
         } else {
             return res.status(401).send("Senha incorreta!");
         }
