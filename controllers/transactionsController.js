@@ -22,7 +22,8 @@ export async function addTransaction(req, res) {
 };
 
 export async function getTransactions(req, res) {
-	const token = req.headers.token.replace('Bearer ', '');
+	const token = req.headers.authorization.replace('Bearer ', '');
+
     if(!token) return res.status(401);
 
     try {
