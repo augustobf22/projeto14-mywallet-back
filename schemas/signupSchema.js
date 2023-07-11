@@ -1,7 +1,7 @@
 import joi from "joi";
 
 export const signupSchema = joi.object({
-    nome: joi.string().required(),
+    name: joi.string().required(),
     email: joi.string().email().required(),
-    senha: joi.string().required().min(3),
+    password: joi.string().required().min(3),
 });
