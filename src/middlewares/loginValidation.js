@@ -1,6 +1,6 @@
 import { loginSchema } from "../schemas/loginSchema.js";
 
-export default function validaLogin(req, res, next) {
+export default function validateLogin(req, res, next) {
     const validation = loginSchema.validate(req.body, { abortEarly: false });
 
     if (validation.error) {

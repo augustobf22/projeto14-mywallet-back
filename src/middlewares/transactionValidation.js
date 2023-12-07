@@ -1,6 +1,6 @@
 import { transactionSchema } from "../schemas/transactionSchema.js";
 
-export default function validaTransaction(req, res, next) {
+export default function validateTransaction(req, res, next) {
     const validation = transactionSchema.validate(req.body, { abortEarly: false });
 
     if (validation.error) {

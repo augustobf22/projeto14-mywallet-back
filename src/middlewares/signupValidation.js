@@ -1,6 +1,6 @@
 import { signupSchema } from "../schemas/signupSchema.js";
 
-export default function validaSignup(req, res, next) {
+export default function validateSignup(req, res, next) {
     const validation = signupSchema.validate(req.body, { abortEarly: false });
 
     if (validation.error) {

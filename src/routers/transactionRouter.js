@@ -1,10 +1,10 @@
 import {Router} from 'express';
 import { addTransaction, getTransactions } from '../controllers/transactionsController.js';
-import validaTransaction from '../middlewares/transactionValidation.js';
+import validateTransaction from '../middlewares/transactionValidation.js';
 
-const router = Router();
+const transactionRouter = Router();
 
-router.post("/nova-transacao/:tipo", validaTransaction, addTransaction);
-router.get("/home", getTransactions);
+transactionRouter.post("/nova-transacao/:tipo", validateTransaction, addTransaction);
+transactionRouter.get("/home", getTransactions);
 
-export default router;
+export default transactionRouter;

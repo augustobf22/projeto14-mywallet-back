@@ -1,5 +1,5 @@
 {
-  "name": "projeto13-batepapo-uol-api",
+  "name": "projeto14-mywallet-back",
   "type": "module",
   "version": "1.0.0",
   "description": "",
@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/augustobf22/projeto13-batepapo-uol-api.git"
+    "url": "git+https://github.com/augustobf22/projeto14-mywallet-back.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/augustobf22/projeto13-batepapo-uol-api/issues"
+    "url": "https://github.com/augustobf22/projeto14-mywallet-back/issues"
   },
-  "homepage": "https://github.com/augustobf22/projeto13-batepapo-uol-api#readme",
+  "homepage": "https://github.com/augustobf22/projeto14-mywallet-back#readme",
   "dependencies": {
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
