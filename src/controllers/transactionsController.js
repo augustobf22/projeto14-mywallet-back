@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { transactionSchema } from "../schemas/transactionSchema.js";
-import { db } from "../database.js";
+import { db } from "../../database.js";
 
 export async function addTransaction(req, res) {
     const tipo = req.params.tipo;

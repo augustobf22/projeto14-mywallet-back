@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { v4 as uuid } from 'uuid';
-import { db } from "../database.js";
+import { db } from "../../database.js";
 
 export async function signUp(req, res) {
     const { name, email, password } = req.body;
@@ -30,9 +30,6 @@ export async function signIn(req, res) {
             const token = uuid();
             
             await db.collection("sessions").insertOne({userId: user._id,token});
-
-            /*const userSerialized = JSON.stringify(user);
-            localStorage.setItem("user", userSerialized);*/
 
             return res.status(200).send({user, token});
         } else {
