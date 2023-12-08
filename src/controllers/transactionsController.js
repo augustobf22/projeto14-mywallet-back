@@ -1,34 +1,22 @@
-import dayjs from "dayjs";
-import { db } from "../../database.js";
+import { transactionsService } from "../services/transactionsService";
 
 export async function addTransaction(req, res) {
-    const tipo = req.params.tipo;
+    const type = req.params.tipo;
+
     const token = req.headers.authorization.replace('Bearer ', '');
+    if(!token) return res.status(401);
 
     const { value, description } = req.body;
+
+    const response = transactionsService.addTransaction({ token, type, value, description });
     
-    try {
-        const userToken = await db.collection("sessions").findOne({ token });
-        if(!userToken) return res.status(401).send("Invalid token!");     
-        
-        const time = dayjs(Date.now()).format('DD/MM');
-  
-        await db.collection("operations").insertOne({ token, type, value, description, time});
-        res.sendStatus(201);
-    } catch (err) {
-        return res.status(500).send(err.message);
-    }
+    return res.status(201).send(response);
 };
 
 export async function getTransactions(req, res) {
 	const token = req.headers.authorization.replace('Bearer ', '');
-
     if(!token) return res.status(401);
 
-    try {
-        let transactions = await db.collection("operations").find({token}).toArray();
-        res.send(transactions);
-    } catch (err) {
-        res.status(500).send(err.message);
-    }
+    const transactions = await transactionsService.getTransactions({token});
+    return res.send(transactions);
 };

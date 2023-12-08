@@ -12,4 +12,8 @@ async function createSession({userId, token}) {
     return await db.collection("sessions").insertOne({userId, token});
 }
 
-export const authRepository = {findUser, createUser, createSession};
+async function findSession({token}) {
+    return await db.collection("sessions").findOne({ token });
+}
+
+export const authRepository = {findUser, createUser, createSession, findSession};

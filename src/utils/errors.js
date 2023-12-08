@@ -47,4 +47,11 @@ function incorrectPassword() {
     }
 }
 
-export const errors = { joi, notFound, conflict, unprocessable, badRequest, emailConflict, incorrectPassword }
+function invalidToken() {
+    return {
+        type: "badRequest",
+        message: `Invalid token.`
+    }
+}
+
+export const errors = { joi, notFound, conflict, unprocessable, badRequest, emailConflict, incorrectPassword, invalidToken }
