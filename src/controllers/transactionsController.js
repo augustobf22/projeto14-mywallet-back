@@ -1,4 +1,4 @@
-import { transactionsService } from "../services/transactionsService";
+import { transactionsService } from "../services/transactionsService.js";
 
 export async function addTransaction(req, res) {
     const type = req.params.tipo;
