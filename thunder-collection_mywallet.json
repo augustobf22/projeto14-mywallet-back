@@ -1,0 +1,90 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "mywallet",
+    "dateExported": "2023-12-10T13:52:20.834Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "31d81d66-61c6-4998-9d83-8ee1b578053e",
+            "colId": "b64e3bcb-f29a-4056-9adf-5a54199940be",
+            "containerId": "",
+            "name": "cadastro",
+            "url": "mywallet-api-7s19.onrender.com/cadastro",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-07-09T17:15:53.709Z",
+            "modified": "2023-12-10T13:51:45.580Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"Teste\",\n  \"email\": \"tst@tst.com\",\n  \"password\": \"1234\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "39c72244-2905-4c65-af7d-8e2c568428da",
+            "colId": "b64e3bcb-f29a-4056-9adf-5a54199940be",
+            "containerId": "",
+            "name": "login",
+            "url": "mywallet-api-7s19.onrender.com/",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2023-07-09T17:43:11.921Z",
+            "modified": "2023-12-10T13:51:50.574Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\": \"tst@tst.com\",\n  \"password\": \"1234\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "7daf3745-5bac-46e6-bf99-4985095a3bba",
+            "colId": "b64e3bcb-f29a-4056-9adf-5a54199940be",
+            "containerId": "",
+            "name": "getTransactions",
+            "url": "mywallet-api-7s19.onrender.com/home",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2023-07-10T20:38:46.318Z",
+            "modified": "2023-12-07T17:05:19.154Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "Bearer 9d08451b-f8e1-4c61-a876-8e22d36b73d1"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "25b57f49-8ff4-4daa-b959-e6e6c55060b6",
+            "colId": "b64e3bcb-f29a-4056-9adf-5a54199940be",
+            "containerId": "",
+            "name": "postTransactions",
+            "url": "mywallet-api-7s19.onrender.com/nova-transacao/entrada",
+            "method": "POST",
+            "sortNum": 40000,
+            "created": "2023-07-10T20:40:12.208Z",
+            "modified": "2023-07-10T23:28:35.087Z",
+            "headers": [
+                {
+                    "name": "token",
+                    "value": "20d93000-9045-4392-a058-e1522f34efa5"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"value\": \"100\",\n  \"description\": \"trabalho\"\n}",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}
