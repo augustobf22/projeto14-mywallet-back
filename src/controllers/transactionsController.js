@@ -7,8 +7,8 @@ export async function addTransaction(req, res) {
     if(!token) return res.status(401);
 
     const { value, description } = req.body;
-
-    const response = transactionsService.addTransaction({ token, type, value, description });
+    
+    const response = await transactionsService.addTransaction({ token, type, value, description });
     
     return res.status(201).send(response);
 };

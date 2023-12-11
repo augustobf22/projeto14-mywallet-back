@@ -9,13 +9,14 @@ async function addTransaction({token, type, value, description}) {
         
     const time = dayjs(Date.now()).format('DD/MM');
   
-    return transactionsRepository.createTransaction({token, type, value, description, time});
+    return await transactionsRepository.createTransaction({token, type, value, description, time});
 }
 
 async function getTransactions({token}) {
-    const transactions = await transactionsRepository.findTransactions({token}).toArray();
+    const transactions = await transactionsRepository.findTransactions({token});
+    const transactionsArray = await transactions.toArray();
 
-    return transactions;
+    return transactionsArray;
 }
 
 export const transactionsService = {addTransaction, getTransactions}

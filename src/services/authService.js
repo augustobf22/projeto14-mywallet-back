@@ -4,15 +4,19 @@ import bcrypt from "bcrypt";
 import { v4 as uuid } from 'uuid';
 
 async function signUp({name, email, password}) {
-    const user = authRepository.findUser(email);
-    if (user) throw errors.emailConflict();
+    try {
+        const user = await authRepository.findUser({email});
+        if (user) throw errors.emailConflict();
+    } catch (error) {
+        return error;
+    }
 
     const hash = bcrypt.hashSync(password, 10);
-    return authRepository.createUser({ name, email, password: hash });
+    return await authRepository.createUser({ name, email, password: hash });
 }
 
 async function signIn({email, password}) {
-    const user = authRepository.findUser(email);
+    const user = await authRepository.findUser({email});
     if(!user) throw errors.notFound('User');
 
     if(user && bcrypt.compareSync(password, user.password)) {
